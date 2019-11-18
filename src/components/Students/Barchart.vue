@@ -9,37 +9,77 @@ export default {
   name: "Piechart",
   data() {
     return {
-      bar:{
-        BarCounts:[],
-        BarTimes:[]
+      bar: {
+        UserCount: [],
+        dateTime: []
       }
     };
   },
+  created () {
+    let self = this;
+    self.getClientTimes()
+  },
   methods: {
+    getClientTimes() {
+      let self = this;
+      //self.loading = true;
+      self.$store.state.services.StudentService.GetBardata()
+        //r后台获取的值
+        .then(r => {
+          //console.log("r的数据"+r.data)
+         
+                /*for(var i=0;i<r.length;i++){
+                    bar.count.push(r.data[i].count);
+                }
+                for(var i=0;i<r.length;i++){
+                    dateTime.push(r.data[i].dateTime);
+                }*/
+                r.data.forEach(element => {
+                  this.bar.UserCount.push(element.count);
+                  this.bar.dateTime.push(element.dateTime);
+                  console.log(element);
+                });
+                this.drawBar("main");
+          
+          //self.loading = false;
+          // self.bar.count = r.data.count;
+          
+          // self.bar.dateTime = r.data.dateTime
+        })
+        .catch(r => {
+          self.$message({
+            message: "发生错误",
+            type: "error"
+          });
+        });
+    },
     drawBar(id) {
       let self = this;
       //echarts.init
       self.charts = echarts.init(document.getElementById(id));
 
       self.charts.setOption({
-       xAxis: {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    },
-    yAxis: {
-        type: 'value'
-    },
-    series: [{
-        data: [1,1,1,3,5,2,1,4,2,1],
-        type: 'line',
-        smooth: true
-    }]
+        xAxis: {
+          type: "category",
+          data: this.bar.dateTime
+        },
+        yAxis: {
+          type: "value"
+        },
+        series: [
+          {
+            data: this.bar.UserCount,
+            type: "line",
+            smooth: true
+          }
+        ]
       });
     }
   },
   //调用
   mounted() {
     this.$nextTick(function() {
+      console.log(this.bar.UserCount);
       this.drawBar("main");
     });
   }

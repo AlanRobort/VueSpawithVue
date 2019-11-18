@@ -15,7 +15,7 @@ class StudentService {
         //this.baseUrl='${apiUrl}student'
         //localhost:5000/api/Login
         this.UserLoginUrl = `${apiUrl}Login`
-        //ClinetInfo
+        //ClinetInfo 
         this.ClientInfo =`${apiUrl}ClientInfo`
     }
 
@@ -53,8 +53,17 @@ class StudentService {
     GetClinetAddress()
     {   
         let self= this;
-        return self.axios.post(`${self.ClientInfoUrl}`);
+        return self.axios.get(`${self.ClientInfoUrl}`);
     }
+
+    GetBardata()
+    {
+        let self= this;
+        //
+        // return self.axios.post(`${self.ClientInfoUrl}`);
+        return self.axios.post(`http://localhost:8888/api/ClientInfo`);
+    }
+
 }
 
 export default StudentService
