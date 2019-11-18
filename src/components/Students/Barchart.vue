@@ -5,6 +5,7 @@
 <script>
 import echarts from "echarts";
 
+
 export default {
   name: "Piechart",
   data() {
@@ -19,10 +20,44 @@ export default {
     let self = this;
     self.getClientTimes()
   },
+  watch:
+  {
+
+    bar:{
+      handler(newdata,olddata)
+      {
+       this.drawBar("main"),
+       this.bar = newdata;
+       console.log("监控数据变化"+newdata)
+      },
+      deep: true
+    }
+  },
   methods: {
+    refresh(){
+      this.$store.state.services.StudentService.GetBardata()
+      .then(r=>{
+         this.bar.UserCount=[];
+            this.bar.dateTime=[];
+        //for(let i = 0;i<5;i++)
+        //{
+          // console.log("qing qiu");
+           r.data.forEach(element => {   
+             
+         // setTimeout(r => {
+            
+            this.bar.UserCount.push(element.count);
+            this.bar.dateTime.push(element.dateTime);
+           // console.log(element);
+         // }, 1000*i);
+            });
+       // }
+      })
+    },
     getClientTimes() {
       let self = this;
       //self.loading = true;
+      console.log("11111111")
       self.$store.state.services.StudentService.GetBardata()
         //r后台获取的值
         .then(r => {
@@ -82,6 +117,8 @@ export default {
       console.log(this.bar.UserCount);
       this.drawBar("main");
     });
+    setInterval(()=>{this.refresh();},1000);  
+    
   }
 };
 </script>

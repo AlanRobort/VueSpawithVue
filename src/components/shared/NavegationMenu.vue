@@ -54,6 +54,9 @@ export default {
       }
     ]
   }),
+  created () {
+    this.ClinetInfoAddress()
+  },
   methods: {
     redirect(path) {
       if(path === undefined) return;

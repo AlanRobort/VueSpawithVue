@@ -16,7 +16,8 @@ class StudentService {
         //localhost:5000/api/Login
         this.UserLoginUrl = `${apiUrl}Login`
         //ClinetInfo 
-        this.ClientInfo =`${apiUrl}ClientInfo`
+        //http://localhost:8888/api/ClientInfo
+        this.ClientInfoUrl =`${apiUrl}ClientInfo`
     }
 
     getById(id) {
@@ -59,9 +60,9 @@ class StudentService {
     GetBardata()
     {
         let self= this;
-        //
-        // return self.axios.post(`${self.ClientInfoUrl}`);
-        return self.axios.post(`http://localhost:8888/api/ClientInfo`);
+        
+         return self.axios.post(`${self.ClientInfoUrl}`);
+        //return self.axios.post(`http://localhost:8888/api/ClientInfo`);
     }
 
 }
